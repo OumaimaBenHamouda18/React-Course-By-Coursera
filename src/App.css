@@ -1,3 +1,29 @@
 li{
   list-style:none;
 }
+
+/************header*********/
+.navbar-dark {
+  background-color: #512DA8;
+}
+.row-header{
+  margin:0px auto;
+  padding:0px auto;
+}
+.jumbotron{
+  padding:70px 30px 70px 30px;
+  border-radius: 0;
+  background:#9575CD ;
+  color:white
+}
+/************footer*********/
+address{
+  font-size:80%;
+  margin:0px;
+  color:#0f0f0f;
+}
+.footer{
+  background-color: #D1C4E9;
+  margin:0px auto;
+  padding: 20px 0px 20px 0px;
+}

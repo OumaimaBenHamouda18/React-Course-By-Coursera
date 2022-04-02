@@ -1,18 +1,24 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
-import {Navbar, NavbarBrand} from 'reactstrap';
-import Menu from './components/menu_component';
-function App() {
-  return (
-    <div className="App">
-      <Navbar dark color="primary">
-      <div className="container">
-        <NavbarBrand href="/">Idk i'm confused</NavbarBrand>
-      </div>
-      </Navbar>
-      <Menu/>
-    </div>
-  );
+import {BrowserRouter} from 'react-router-dom'
+import MainComponent from './components/MainComponents';
+
+class App extends Component {
+
+  render(){
+    return (
+      <BrowserRouter>
+        <div>
+          <MainComponent/>
+        </div>
+      </BrowserRouter>
+      
+    );
+
+  }
+   
+ 
+  
 }
 
 export default App;
