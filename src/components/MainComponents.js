@@ -1,35 +1,60 @@
 import React, { Component } from 'react';
 import Menu from './MenuComponent.js';
 import DishDetail from './DishDetailComponent.js';
-import {DISHES} from '../shared/dishes.js';
 import Header from './HeaderComponent.js'
 import Footer from './FooterComponent.js'
 import Home from './HomeComponent';
 import Contact from './contact.js';
 import About from './AboutComponent.js';
-import {LEADERS} from '../shared/leaders.js';
-import {COMMENTS} from '../shared/comments.js';
-import {PROMOTIONS} from '../shared/promotions.js';
-import {Routes, Route} from 'react-router-dom';
 
+import {Routes, Route} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {
+  useLocation,
+  useNavigate,
+  useParams
+} from "react-router-dom";
+
+const mapStateToProps=(state)=>{
+  //content of state will be avaiable as props
+  return{
+    dishes:state.dishes,
+    comments:state.comments,
+    promotions:state.promotions,
+    leaders:state.leaders
+  }
+    
+}
+
+function withRouter(Component) {
+  function ComponentWithRouterProp(props) {
+    let location = useLocation();
+    let navigate = useNavigate();
+    let params = useParams();
+    return (
+      <Component
+        {...props}
+        router={{ location, navigate, params }}
+      />
+    );
+  }
+
+  return ComponentWithRouterProp;
+}
 class MainComponent extends Component {
   constructor(props){
     super(props);
-    this.state={
-        dishes:DISHES,
-        comments:COMMENTS,
-        promotions:PROMOTIONS,
-        leaders:LEADERS
-    };
+   
   }
+ 
   
   render(){
     const HomePage = () => {
       return(
           <Home 
-          dish={this.state.dishes.filter((dish)=>dish.featured)[0]}
-          promotion={this.state.promotions.filter((promotion)=>promotion.featured)[0]}
-          leader={this.state.leaders.filter((leader)=>leader.featured)[0]}/>
+          dish={this.props.dishes.filter((dish)=>dish.featured)[0]}
+          promotion={this.props.promotions.filter((promotion)=>promotion.featured)[0]}
+          leader={this.props.leaders.filter((leader)=>leader.featured)[0]}/>
           //only if featured is true
       );
     }
@@ -40,10 +65,10 @@ class MainComponent extends Component {
         <Header/>
         <Routes>
               <Route path="/home" element={<HomePage/>} />
-              <Route path="/menu" element={<Menu dishes={this.state.dishes} />} />
+              <Route path="/menu" element={<Menu dishes={this.props.dishes} />} />
               <Route path="/contact" element={<Contact/>} />
-              <Route path="/about" element={<About leaders={this.state.leaders}/>} />
-              <Route path='/menu/:dishId' element={<DishDetail comments={this.state.comments} dishes={this.state.dishes}/>} />
+              <Route path="/about" element={<About leaders={this.props.leaders}/>} />
+              <Route path='/menu/:dishId' element={<DishDetail comments={this.props.comments} dishes={this.props.dishes}/>} />
 
         </Routes>
         <Footer/>
@@ -55,4 +80,4 @@ class MainComponent extends Component {
   
 }
 
-export default MainComponent;
+export default withRouter(connect(mapStateToProps)(MainComponent));
